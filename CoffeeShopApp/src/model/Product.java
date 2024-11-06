@@ -1,31 +1,26 @@
 package model;
-
+import java.math.BigDecimal;
 public abstract class Product {
     private String name;
-    private double price;
-
-    public Product(String name, double price) {
+    private BigDecimal price;
+    public Product(String name, BigDecimal price) {
         this.name = name;
         this.price = price;
     }
-
     public String getName() {
-        return this.name;
+        return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
-    public double getPrice() {
-        return this.price;
+    public BigDecimal getPrice() {
+        return price;
     }
-
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
-
+    @Override
     public String toString() {
-        return this.name + " - " + this.price + " грн";
+        return "Product{name='" + name + "', price=" + price + "}";
     }
 }

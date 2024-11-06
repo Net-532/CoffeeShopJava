@@ -1,20 +1,16 @@
-
 package menu;
-
 import model.Coffee;
 import model.Treat;
 import service.CoffeeShopService;
-
+import java.math.BigDecimal;
 public class Main {
-    public Main() {
-    }
-
     public static void main(String[] args) {
         CoffeeShopService coffeeShopService = new CoffeeShopService();
-        coffeeShopService.addProduct(new Coffee("Espresso", 50.0, "Small"));
-        coffeeShopService.addProduct(new Coffee("Latte", 70.0, "Medium"));
-        coffeeShopService.addProduct(new Treat("Croissant", 30.0));
-        MainMenu menu = new MainMenu(coffeeShopService);
-        menu.displayMenu();
+        coffeeShopService.addProduct(new Coffee("Latte", new BigDecimal("3.50"), Coffee.CupSize.MEDIUM));
+        coffeeShopService.addProduct(new Treat("Muffin", new BigDecimal("2.00"), true));
+        coffeeShopService.addProduct(new Coffee("Espresso", new BigDecimal("2.00"), Coffee.CupSize.LARGE));
+        coffeeShopService.addProduct(new Treat("Brownie", new BigDecimal("2.50"), false));
+        MainMenu mainMenu = new MainMenu(coffeeShopService);
+        mainMenu.displayMenu();
     }
 }

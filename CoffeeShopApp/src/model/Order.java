@@ -1,61 +1,40 @@
-
-
 package model;
-
+import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 public class Order {
     private Map<Product, Integer> items;
-
     public Order() {
-        this.items = new HashMap();
+        this.items = new HashMap<>();
     }
-
-    public Order(List<Coffee> coffees, List<Treat> treats) {
-        this();
-        Iterator var3 = coffees.iterator();
-
-        while(var3.hasNext()) {
-            Coffee coffee = (Coffee)var3.next();
-            this.addItem(coffee, 1);
+    public void addItems(List<Product> products) {
+        for (var item : products) {
+            this.addItem(item, 1);
         }
-
-        var3 = treats.iterator();
-
-        while(var3.hasNext()) {
-            Treat treat = (Treat)var3.next();
-            this.addItem(treat, 1);
-        }
-
     }
-
     public void addItem(Product product, int quantity) {
-        this.items.put(product, (Integer)this.items.getOrDefault(product, 0) + quantity);
+        this.items.put(product, this.items.getOrDefault(product, 0) + quantity);
     }
-
     public Map<Product, Integer> getItems() {
         return this.items;
     }
-
     public double getTotalPrice() {
-        return this.items.entrySet().stream().mapToDouble((entry) -> {
-            return ((Product)entry.getKey()).getPrice() * (double)(Integer)entry.getValue();
-        }).sum();
+        return this.items.entrySet().stream()
+                .mapToDouble(entry -> entry.getKey().getPrice().doubleValue() * entry.getValue())
+                .sum();
     }
-
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Замовлення:\n");
-        Iterator var2 = this.items.entrySet().iterator();
 
-        while(var2.hasNext()) {
-            Map.Entry<Product, Integer> entry = (Map.Entry)var2.next();
-            sb.append(((Product)entry.getKey()).getName()).append(" - Кількість: ").append(entry.getValue()).append(" - Сума: ").append(((Product)entry.getKey()).getPrice() * (double)(Integer)entry.getValue()).append(" грн\n");
+        for (Map.Entry<Product, Integer> entry : this.items.entrySet()) {
+            sb.append(entry.getKey().getName())
+                    .append(" - Кількість: ").append(entry.getValue())
+                    .append(" - Сума: ").append(entry.getKey().getPrice().multiply(BigDecimal.valueOf(entry.getValue()))).append(" грн\n");
         }
 
-        sb.append("Загальна сума: ").append(this.getTotalPrice()).append(" грн");
+        sb.append("Загальна сума: ").append(BigDecimal.valueOf(this.getTotalPrice())).append(" грн");
         return sb.toString();
     }
 }
