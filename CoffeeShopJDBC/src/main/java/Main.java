@@ -1,20 +1,29 @@
-import model.Coffee;
-import model.Treat;
+import jakarta.persistence.*;
+import model.Product;
 import service.CoffeeShopService;
+
 import java.math.BigDecimal;
 
 public class Main {
     public static void main(String[] args) {
-        CoffeeShopService coffeeShopService = new CoffeeShopService();
+        // Підключення до EntityManager
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("coffeeShopPU");
+        EntityManager em = emf.createEntityManager();
 
-        // Додаємо тестові дані в базу даних
-        coffeeShopService.addProduct(new Coffee("Latte", new BigDecimal("3.50"), Coffee.CupSize.MEDIUM));
-        coffeeShopService.addProduct(new Treat("Muffin", new BigDecimal("2.00"), true));
-        coffeeShopService.addProduct(new Coffee("Espresso", new BigDecimal("2.00"), Coffee.CupSize.LARGE));
-        coffeeShopService.addProduct(new Treat("Brownie", new BigDecimal("2.50"), false));
+        // Створення сервісу для маніпуляцій з продуктами
+        CoffeeShopService service = new CoffeeShopService();
 
-        // Запускаємо головне меню
-        MainMenu mainMenu = new MainMenu(coffeeShopService);
-        mainMenu.displayMenu();
+        try {
+            // Викликаємо методи сервісу один за одним
+            Product product1 = new Product("Coffee", BigDecimal.valueOf(5.99), true);
+            service.addProduct(em, product1);  // Додаємо перший продукт
+
+            Product product2 = new Product("Treat", BigDecimal.valueOf(3.49), false);
+            service.addProduct(em, product2);  // Додаємо другий продукт
+
+        } finally {
+            em.close();  // Завершуємо EntityManager
+            emf.close();  // Завершуємо EntityManagerFactory
+        }
     }
 }
