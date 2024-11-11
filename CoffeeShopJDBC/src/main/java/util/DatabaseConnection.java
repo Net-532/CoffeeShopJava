@@ -9,10 +9,9 @@ public class DatabaseConnection {
 
     static {
         try {
-            // Ручна реєстрація драйвера, якщо потрібно
+
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            // Підключення до бази даних
             String url = "jdbc:mysql://localhost:3306/coffee_shop";
             String username = "root"; // Ваше ім'я користувача
             String password = "bibaiboba_27"; // Ваш пароль
@@ -32,7 +31,7 @@ public class DatabaseConnection {
         if (connection == null || isConnectionClosed()) {
             try {
                 System.out.println("Перепідключення...");
-                // Перепідключення, якщо з'єднання закрите
+
                 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/coffee_shop", "root", "bibaiboba_27");
             } catch (SQLException e) {
                 System.out.println("Не вдалося перепідключитись.");
@@ -46,7 +45,7 @@ public class DatabaseConnection {
         try {
             return connection == null || connection.isClosed();
         } catch (SQLException e) {
-            return true; // Вважаємо, що з'єднання закрите
+            return true;
         }
     }
 }

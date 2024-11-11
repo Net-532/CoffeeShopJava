@@ -9,6 +9,13 @@
   <packaging>jar</packaging>
 
   <dependencies>
+
+    <!-- Spring Context -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>5.3.30</version>
+    </dependency>
     <!-- Hibernate Core -->
     <dependency>
       <groupId>org.hibernate</groupId>

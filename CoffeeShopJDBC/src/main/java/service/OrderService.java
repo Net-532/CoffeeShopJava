@@ -5,6 +5,9 @@ import model.Order;
 import model.Product;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class OrderService {
 
     public Order createOrder(EntityManager em, List<Product> products) {
