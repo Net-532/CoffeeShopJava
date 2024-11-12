@@ -1,30 +1,38 @@
 package service;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
+
 import model.Order;
-import model.Product;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class OrderService {
+    private final List<Order> orders = new ArrayList<>();
+    private long nextId = 1;
 
-    public Order createOrder(EntityManager em, List<Product> products) {
-        EntityTransaction transaction = em.getTransaction();
-        Order order = new Order();
-        order.addItems(products);
-
-        try {
-            transaction.begin();
-            em.persist(order);
-            transaction.commit();
-            System.out.println("Order created successfully.");
-        } catch (Exception e) {
-            if (transaction.isActive()) transaction.rollback();
-            e.printStackTrace();
-        }
-        return order;
+    public List<Order> getAllOrders() {
+        return orders;
     }
 
-    public List<Order> getAllOrders(EntityManager em) {
-        return em.createQuery("SELECT o FROM Order o", Order.class).getResultList();
+    public Order getOrderById(Long id) {
+        Optional<Order> order = orders.stream()
+                .filter(o -> o.getId().equals(id))
+                .findFirst();
+        return order.orElse(null);
+    }
+
+    public void saveOrder(Order order) {
+        order.setId(nextId++);
+        orders.add(order);
+    }
+
+    public void updateOrder(Order order) {
+        orders.replaceAll(o -> o.getId().equals(order.getId()) ? order : o);
+    }
+
+    public void deleteOrder(Long id) {
+        orders.removeIf(o -> o.getId().equals(id));
     }
 }
