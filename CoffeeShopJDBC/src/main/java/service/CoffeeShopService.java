@@ -2,10 +2,10 @@ package service;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import model.Product;
-import model.Coffee;
-import model.Treat;
+import org.springframework.stereotype.Service;
 import java.util.List;
 
+@Service
 public class CoffeeShopService {
 
     public List<Product> loadMenu(EntityManager em) {
